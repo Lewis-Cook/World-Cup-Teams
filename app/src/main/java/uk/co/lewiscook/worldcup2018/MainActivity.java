@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,6 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView tV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView img = findViewById(R.id.imgView);
         Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(img);
-        //
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
@@ -37,11 +39,7 @@ public class MainActivity extends AppCompatActivity {
         service.listRepos().enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                Log.v("Jules", "Correct" + response.toString());
-                List<Repo> repos = response.body();
-                for (Repo repo : repos) {
-                    Log.i("Jules", "repo name: " + repo.name);
-                }
+                handleSucessfulRequest(response.body());
             }
 
             @Override
@@ -49,5 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("Jules", "Wrong" + t.toString());
             }
         });
+    }
+
+    public void handleSucessfulRequest(List<Repo> response) {
+        String allRepos = "";
+
+        for (Repo repo : response) {
+            allRepos = allRepos + "Name: " + repo.name + "\n" + repo.description + " " + "\n \n";
+        }
+
+        tV = findViewById(R.id.tView);
+        tV.setText(allRepos);
+
     }
 }

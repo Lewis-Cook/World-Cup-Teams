@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 
 //Interface to retrieve info from online API
 public interface FootballTeamService {
-    @GET("users/Lewis-Cook/repos")
+    @GET("users/Julesssss/repos")
     Call<List<Repo>> listRepos();
 
     @GET("users/{user}/repos")
