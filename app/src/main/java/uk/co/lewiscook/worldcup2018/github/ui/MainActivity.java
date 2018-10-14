@@ -1,4 +1,4 @@
-package uk.co.lewiscook.worldcup2018;
+package uk.co.lewiscook.worldcup2018.github.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import uk.co.lewiscook.worldcup2018.R;
+import uk.co.lewiscook.worldcup2018.github.api.GitHubService;
+import uk.co.lewiscook.worldcup2018.github.model.Repo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())//Allows retrofit to convert JSON to JAVA (Gson coverts)
                 .build();
 
-        final FootballTeamService service = retrofit.create(FootballTeamService.class);
+        final GitHubService service = retrofit.create(GitHubService.class);
 
 
         service.listRepos().enqueue(new Callback<List<Repo>>() {

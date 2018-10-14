@@ -1,7 +1,6 @@
-package uk.co.lewiscook.worldcup2018;
+package uk.co.lewiscook.worldcup2018.github.model;
 
 public class Repo {
-
 
     public Integer id;
 
