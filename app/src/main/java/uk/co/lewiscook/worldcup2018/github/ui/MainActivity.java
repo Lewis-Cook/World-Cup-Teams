@@ -1,12 +1,10 @@
 package uk.co.lewiscook.worldcup2018.github.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,15 +19,16 @@ import uk.co.lewiscook.worldcup2018.github.model.Repo;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tV;
+    private RecyclerView mRecyclerView;
+
+    private RepoAdapter mAdapter = new RepoAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView img = findViewById(R.id.imgView);
-        Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(img);
+        setUpRecyclerView();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
@@ -52,15 +51,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpRecyclerView() {
+        mRecyclerView = findViewById(R.id.recycleView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     public void handleSucessfulRequest(List<Repo> response) {
-        String allRepos = "";
-
-        for (Repo repo : response) {
-            allRepos = allRepos + "Name: " + repo.name + "\n" + repo.description + " " + "\n \n";
-        }
-
-        tV = findViewById(R.id.tView);
-        tV.setText(allRepos);
-
+        mAdapter.setData(response);
     }
 }
